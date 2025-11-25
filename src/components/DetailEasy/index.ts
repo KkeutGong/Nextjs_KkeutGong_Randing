@@ -1,3 +1,3 @@
-import DetailEasy from './DeatailEasy';
+import DetailEasy from './DetailEasy';
 
 export { DetailEasy };

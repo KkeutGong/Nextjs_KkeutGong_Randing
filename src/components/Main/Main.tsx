@@ -1,80 +1,81 @@
-import React from 'react';
-import Image, { StaticImageData } from 'next/image';
+'use client';
 
-import withWindowSize, { DeviceProps } from '@/hocs/withWindowSize';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+
 import { Button } from '@/components/Common/Button';
 
-import textLogo from '../../../public/static/images/text-logo.webp';
-import playstoreLogo from '../../../public/static/images/playstore.webp';
-import appstoreLogo from '../../../public/static/images/appstore.webp';
 import mockupLgSrc from '../../../public/static/images/mockup-main-lg.webp';
-import mockupMdSrc from '../../../public/static/images/mockup-main-md.webp';
-import mockupSmSrc from '../../../public/static/images/mockup-main-sm.webp';
 
 import Styles from './Main.module.scss';
 
-function Main(props: DeviceProps): JSX.Element {
-  const { isPc, isTablet, isMobile } = props;
-
-  const mockupSrc = (): StaticImageData => {
-    if (isPc) return mockupLgSrc;
-    else if (isTablet) return mockupMdSrc;
-    else return mockupSmSrc;
-  };
-
+export default function Main(): JSX.Element {
   return (
     <div className={Styles.Main}>
-      {isMobile ? (
-        <div className={Styles.Main__title}>
-          <div>기억하고 싶은</div>
-          <div>모든 콘텐츠를 내 손안에</div>
-        </div>
-      ) : (
-        <div className={Styles.Main__title}>
-          기억하고 싶은 모든 콘텐츠를 내 손안에
-        </div>
-      )}
-      <Image
+      <motion.div
+        className={Styles.Main__title}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+      >
+        포기하지 않는 경험을 만듭니다.
+      </motion.div>
+      <motion.div
         className={Styles.Main__logo}
-        src={textLogo}
-        alt="havit text logo"
-        priority
-      />
-      {isMobile ? (
-        <>
-          <div className={Styles.Main__introText}>
-            그때 봤던 그 콘텐츠 어디있지?
-          </div>
-          <div className={Styles['Main__introText--strong']}>
-            콘텐츠 저장, 해빗에서 쉽고 간편하게
-          </div>
-        </>
-      ) : (
-        <div className={Styles.Main__introText}>
-          그때 봤던 그 콘텐츠 어디있지?&nbsp;
-          <span className={Styles['Main__introText--strong']}>
-            콘텐츠 저장, 해빗에서 쉽고 간편하게
-          </span>
-        </div>
-      )}
-      <div className={Styles.Main__store}>
-        <Button type="google" text="Google Play" imageSrc={playstoreLogo} />
-        <Button
-          type="apple"
-          text="App Store&nbsp;&nbsp;"
-          imageSrc={appstoreLogo}
-        />
-      </div>
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+      >
+        끝공
+      </motion.div>
+      <motion.div
+        className={Styles.Main__introText}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+      >
+        AI가 매일의 학습 루틴을 설계하고 &nbsp;
+        <motion.span
+          className={Styles['Main__introText--strong']}
+          animate={{
+            backgroundPosition: ['0%', '100%', '0%'],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+          style={{
+            background: 'linear-gradient(90deg, #fff 0%, #4169E1 50%, #fff 100%)',
+            backgroundSize: '200% 100%',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          합격까지 이끌어 드립니다.
+        </motion.span>
+      </motion.div>
+      <motion.div
+        className={Styles.Main__store}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+      >
+        <Button type="reservation" text="사전예약" />
+      </motion.div>
       <div className={Styles.Main__image}>
         <Image
-          src={mockupSrc()}
+          src={mockupLgSrc}
           alt="havit mockup main"
-          style={{ width: '100%', height: 'auto' }}
+          width={1145}
+          height={716}
           priority
+          fetchPriority="high"
+          sizes="(max-width: 1200px) 100vw, 960px"
+          quality={85}
         />
       </div>
     </div>
   );
 }
-
-export default withWindowSize(Main);

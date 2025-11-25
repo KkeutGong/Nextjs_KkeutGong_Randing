@@ -1,5 +1,3 @@
-@import '@/styles/responsive.module.scss';
-
 .DetailCheck {
   display: flex;
   flex-direction: column;
@@ -7,16 +5,41 @@
   align-items: center;
   padding: 0 2rem;
   width: 100%;
-  height: 50rem;
+  height: 100vh;
+  min-height: 100vh;
   background-color: var(--gray-background);
   font-family: 'Pretendard';
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 
-  @include tablet {
-    height: 55rem;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(
+      circle,
+      rgba(65, 105, 225, 0.08) 0%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    animation: pulse 4s ease-in-out infinite;
   }
 
-  @include mobile {
-    height: 45rem;
+  @keyframes pulse {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 0.8;
+    }
   }
 
   &__title {
@@ -26,17 +49,8 @@
     letter-spacing: -0.06em;
     text-align: center;
     color: var(--black);
-
-    @include tablet {
-      margin-top: 5rem;
-      font-size: 2rem;
-    }
-
-    @include mobile {
-      margin-top: 5rem;
-      margin-bottom: 0.625rem;
-      font-size: 1.5rem;
-    }
+    position: relative;
+    z-index: 1;
   }
 
   &__detail {
@@ -45,34 +59,25 @@
     font-weight: 400;
     color: var(--text-gray);
     text-align: center;
+    position: relative;
+    z-index: 1;
 
     & > div {
       margin-bottom: 0.5rem;
     }
-
-    @include tablet {
-      margin-bottom: 3rem;
-      font-size: 1.125rem;
-    }
-
-    @include mobile {
-      font-size: 0.875rem;
-    }
   }
 
   &__image {
-    width: 55vw;
+    width: 60vw;
+    position: relative;
+    z-index: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 
-    @include wideDesktop {
-      width: 45vw;
-    }
-
-    @include tablet {
-      width: 70vw;
-    }
-
-    @include mobile {
-      width: 80vw;
+    &:hover {
+      box-shadow: 0 30px 80px rgba(65, 105, 225, 0.2);
     }
   }
 }

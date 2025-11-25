@@ -1,0 +1,140 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  font-family: 'Pretendard';
+  line-height: 1.8;
+  color: var(--black);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--black);
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: var(--text-gray);
+}
+
+.description {
+  font-size: 1.125rem;
+  margin-bottom: 3rem;
+  color: var(--text-gray);
+  line-height: 1.8;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--black);
+}
+
+.paragraph {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-gray);
+  line-height: 1.8;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.listItem {
+  strong {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--black);
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+  }
+
+  ul {
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+    list-style-type: disc;
+
+    li {
+      font-size: 1.125rem;
+      color: var(--text-gray);
+      line-height: 1.8;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.subList {
+  margin-top: 1rem;
+  margin-left: 1rem;
+
+  p {
+    margin-bottom: 0.75rem;
+  }
+
+  ul {
+    margin-left: 1.5rem;
+    list-style-type: disc;
+  }
+}
+
+.contactBox {
+  background-color: var(--gray-background);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+
+  strong {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--black);
+  }
+
+  ul {
+    list-style: none;
+    margin-left: 0;
+    margin-bottom: 1rem;
+
+    li {
+      font-size: 1.125rem;
+      color: var(--text-gray);
+      line-height: 1.8;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .note {
+    font-size: 1rem;
+    color: var(--text-gray);
+    font-style: italic;
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+}

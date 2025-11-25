@@ -1,51 +1,56 @@
-import React from 'react';
-import Image from 'next/image';
+'use client';
 
-import withWindowSize, { DeviceProps } from '@/hocs/withWindowSize';
+import { useRef } from 'react';
+import Image from 'next/image';
+import { motion, useInView } from 'framer-motion';
 
 import checkImageLgSrc from '../../../public/static/images/check.webp';
-import checkImageSmSrc from '../../../public/static/images/check-md.webp';
 
 import Styles from './DetailCheck.module.scss';
 
-function DetailCheck(props: DeviceProps): JSX.Element {
-  const { isPc } = props;
-
-  const checkImageSrc = isPc ? checkImageLgSrc : checkImageSmSrc;
-
-  const Title = (): JSX.Element => {
-    if (isPc) {
-      return (
-        <div className={Styles.DetailCheck__title}>
-          잊기 쉬운 콘텐츠, 모두 확인 할 수 있도록
-        </div>
-      );
-    }
-
-    return (
-      <div className={Styles.DetailCheck__title}>
-        <div>잊기 쉬운 콘텐츠,</div>
-        <div>모두 확인 할 수 있도록</div>
-      </div>
-    );
-  };
+export default function DetailCheck(): JSX.Element {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <div className={Styles.DetailCheck}>
-      <Title />
-      <div className={Styles.DetailCheck__detail}>
-        <div>콘텐츠의 제목을 원하는 대로 수정하고,</div>
-        <div>저장한 콘텐츠를 잊지 않도록 알림설정을 해보세요.</div>
-      </div>
-      <div className={Styles.DetailCheck__image}>
+    <motion.div
+      ref={ref}
+      className={Styles.DetailCheck}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.6 }}
+    >
+      <motion.div
+        className={Styles.DetailCheck__title}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        "끊김 없는 학습, &nbsp;&nbsp;합격을 향한 흐름을 이어갑니다."
+      </motion.div>
+      <motion.div
+        className={Styles.DetailCheck__detail}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
+        <div>끊김 없는 하루가 합격의 확률을 높입니다.</div>
+        <div>하루하루가 기록된 연속학습일은
+        합격을 향한 자신감을 키워냅니다.</div>
+      </motion.div>
+      <motion.div
+        className={Styles.DetailCheck__image}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 1, delay: 0.6, ease: 'easeOut' }}
+        whileHover={{ scale: 1.02 }}
+      >
         <Image
-          src={checkImageSrc}
+          src={checkImageLgSrc}
           alt="havit content check image"
           style={{ width: '100%', height: 'auto' }}
         />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
-
-export default withWindowSize(DetailCheck);

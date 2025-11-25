@@ -1,22 +1,73 @@
-@import '@/styles/responsive.module.scss';
-
 .Main {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem 2rem 0 2rem;
   width: 100%;
-  height: 56.85em;
+  height: 100vh;
+  min-height: 100vh;
   color: var(--white);
   background: var(--main-background);
   font-family: 'Pretendard';
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 
-  @include tablet {
-    height: 51rem;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(65, 105, 225, 0.1) 0%,
+      transparent 70%
+    );
+    animation: pulse 4s ease-in-out infinite;
+    pointer-events: none;
   }
 
-  @include mobile {
-    height: 39rem;
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(
+      circle,
+      rgba(90, 127, 240, 0.15) 0%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+      transform: translate(30px, -30px) rotate(120deg);
+    }
+    66% {
+      transform: translate(-20px, 20px) rotate(240deg);
+    }
   }
 
   &__title {
@@ -25,34 +76,25 @@
     font-size: 2.5rem;
     letter-spacing: -0.06em;
     line-height: 72px;
-
-    @include tablet {
-      text-align: center;
-      font-size: 1.875rem;
-      line-height: 29px;
-    }
-
-    @include mobile {
-      text-align: center;
-      font-size: 1.5rem;
-      line-height: 29px;
-    }
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
   }
 
   &__logo {
     margin-top: 0.5rem;
-    width: 18rem;
-    height: 3rem;
-
-    @include tablet {
-      margin-top: 1.375rem;
-    }
-
-    @include mobile {
-      margin-top: 1rem;
-      width: 9rem;
-      height: 1.5rem;
-    }
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: -0.06em;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, #fff 0%, #4169E1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 4px 10px rgba(65, 105, 225, 0.3));
   }
 
   &__introText {
@@ -60,23 +102,13 @@
     font-size: 1.25rem;
     font-weight: 400;
     color: var(--white-gray);
+    position: relative;
+    z-index: 1;
 
     &--strong {
       color: var(--white);
       font-weight: 500;
-
-      @include mobile {
-        font-size: 0.625rem;
-      }
-    }
-
-    @include tablet {
-      font-size: 1rem;
-    }
-
-    @include mobile {
-      font-size: 0.625rem;
-      margin-bottom: 0.25rem;
+      position: relative;
     }
   }
 
@@ -85,19 +117,22 @@
     justify-content: center;
     margin-top: 2rem;
     gap: 1rem;
+    position: relative;
+    z-index: 1;
   }
 
   &__image {
-    width: 45rem;
-    padding-right: 5rem;
+    width: 60rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+    transition: filter 0.3s ease;
 
-    @include tablet {
-      width: 40rem;
-    }
-
-    @include mobile {
-      width: 22rem;
-      padding: 0;
+    &:hover {
+      filter: drop-shadow(0 30px 60px rgba(65, 105, 225, 0.4));
     }
   }
 }

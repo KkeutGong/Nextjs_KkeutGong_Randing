@@ -1,6 +1,6 @@
 export default {
-  titleTemplate: '%s | 기억하고 싶은 모든 콘텐츠를 내 손안에',
-  description: '기억하고 싶은 모든 콘텐츠를 내 손안에, HAVIT',
+  titleTemplate: '%s | 포기하지 않는 경험을 만듭니다',
+  description: '포기하지 않는 경험을 만듭니다, 끝공',
   additionalLinkTags: [
     {
       rel: 'icon',
@@ -28,14 +28,14 @@ export default {
     type: 'website',
     locale: 'ko_KR',
     url: 'https://www.havit.app',
-    title: 'HAVIT | 기억하고 싶은 모든 콘텐츠를 내 손안에',
-    site_name: 'HAVIT',
+    title: '끝공 | 포기하지 않는 경험을 만듭니다.',
+    site_name: '끝공',
     images: [
       {
         url: '/static/images/og-kakao.png',
         width: 800,
         height: 400,
-        alt: 'og image for HAVIT',
+        alt: 'og image for 끝공',
       },
     ],
   },

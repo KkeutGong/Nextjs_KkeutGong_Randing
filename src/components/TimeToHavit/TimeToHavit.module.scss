@@ -1,5 +1,3 @@
-@import '@/styles/responsive.module.scss';
-
 .TimeToHavit {
   display: flex;
   flex-direction: column;
@@ -7,30 +5,46 @@
   align-items: center;
   width: 100%;
   padding: 2rem 2rem 0 2rem;
+  height: 100vh;
+  min-height: 100vh;
   background: var(--purple-background);
   font-family: 'Pretendard';
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 
-  @include mobile {
-    align-items: flex-start;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    animation: shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes shimmer {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
   }
 
   &__image {
-    margin-top: 5rem;
+    margin-top: -2rem;
     margin-left: 5rem;
-    width: 50vw;
-
-    @include wideDesktop {
-      width: 45vw;
-    }
-
-    @include tablet {
-      width: 70vw;
-    }
-
-    @include mobile {
-      margin-left: 0;
-      width: 90vw;
-    }
+    width: 60vw;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.3));
+    transition: filter 0.3s ease;
   }
 
   &__title {
@@ -40,37 +54,16 @@
     letter-spacing: -0.06em;
     text-align: center;
     color: var(--white);
-
-    @include tablet {
-      font-size: 2rem;
-    }
-
-    @include mobile {
-      text-align: start;
-      font-size: 1.75rem;
-    }
+    position: relative;
+    z-index: 1;
   }
 
   &__detail {
     font-size: 1.25rem;
     font-weight: 400;
     color: var(--white);
-
-    @include tablet {
-      font-size: 1.125rem;
-    }
-
-    @include mobile {
-      display: grid;
-      grid-template-columns: minmax(100px, max-content) 1fr;
-      align-items: center;
-      width: 100%;
-      font-size: 0.75rem;
-    }
-  }
-
-  &__line {
-    margin-left: 0.5rem;
+    position: relative;
+    z-index: 1;
   }
 
   &__store {
@@ -80,9 +73,7 @@
     margin-bottom: 8rem;
     color: var(--white);
     gap: 1rem;
-
-    @include mobile {
-      margin-bottom: 5rem;
-    }
+    position: relative;
+    z-index: 1;
   }
 }

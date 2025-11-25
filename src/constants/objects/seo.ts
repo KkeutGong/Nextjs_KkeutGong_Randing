@@ -1,3 +1,8 @@
+// 프로덕션 도메인 설정
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://kkeutgong.hyphen.it.com');
+
 export default {
   titleTemplate: '%s | 포기하지 않는 경험을 만듭니다',
   description: '포기하지 않는 경험을 만듭니다, 끝공',
@@ -27,21 +32,23 @@ export default {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    url: '',
+    url: siteUrl,
+    siteName: '끝공',
     title: '끝공 | 포기하지 않는 경험을 만듭니다.',
-    site_name: '끝공',
+    description: '포기하지 않는 경험을 만듭니다, 끝공',
     images: [
       {
-        url: '/static/images/og-kakao.png',
+        url: `${siteUrl}/static/images/og-kakao.png`,
         width: 800,
         height: 400,
-        alt: 'og image for 끝공',
+        alt: '끝공 - 포기하지 않는 경험을 만듭니다',
+        type: 'image/png',
       },
     ],
   },
   twitter: {
     handle: '@handle',
-    site: 'havit.app',
+    site: 'kkeutgong.hyphen.it.com',
     cardType: 'summary_large_image',
   },
 };

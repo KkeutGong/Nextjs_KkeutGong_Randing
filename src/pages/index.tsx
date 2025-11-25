@@ -12,7 +12,7 @@ import styles from '@/styles/Home.module.scss';
 export default function Home() {
   return (
     <>
-      <NextSeo title="끝공" canonical="https://havit.app" />
+      <NextSeo title="끝공" canonical="https://kkeutgong.hyphen.it.com" />
       <main className={styles.main}>
         <Main />
         <DetailEasy />

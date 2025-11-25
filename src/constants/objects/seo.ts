@@ -27,7 +27,7 @@ export default {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    url: 'https://www.havit.app',
+    url: '',
     title: '끝공 | 포기하지 않는 경험을 만듭니다.',
     site_name: '끝공',
     images: [

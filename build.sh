@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ../
 mkdir output
-cp -R ./Havit-Landing-Web/* ./output
-cp -R ./output ./Havit-Landing-Web/
+cp -R ./Kkeutgong-Landing-Web/* ./output
+cp -R ./output ./Kkeutgong-Landing-Web/

@@ -1,13 +1,13 @@
 version: '3.8'
 
 services:
-  havit-landing:
+  kkeutgong-landing:
     build:
       context: .
       dockerfile: Dockerfile
       args:
         - NODE_ENV=production
-    container_name: havit-landing-web
+    container_name: kkeutgong-landing-web
     ports:
       - "3000:3000"
     # 환경 변수는 .env 파일에서 로드 (보안상 안전)

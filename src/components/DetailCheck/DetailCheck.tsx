@@ -48,7 +48,10 @@ export default function DetailCheck(): JSX.Element {
         <Image
           src={checkImageLgSrc}
           alt="havit content check image"
-          style={{ width: '100%', height: 'auto' }}
+          width={2240}
+          height={2000}
+          sizes="(max-width: 1200px) 100vw, 960px"
+          quality={85}
         />
       </motion.div>
     </motion.div>

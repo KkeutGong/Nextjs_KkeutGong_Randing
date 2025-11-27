@@ -73,6 +73,7 @@
   &__nameWrapper {
     display: flex;
     justify-content: center;
+    min-width: fit-content;
 
     &__name {
       font-family: 'Pretendard';
@@ -80,11 +81,12 @@
       font-size: 1.25rem;
       position: relative;
       z-index: 1;
-      transition: letter-spacing 0.3s ease;
+      white-space: nowrap;
+      transition: transform 0.3s ease;
     }
   }
 
   &:hover &__nameWrapper__name {
-    letter-spacing: 0.05em;
+    transform: scale(1.02);
   }
 }

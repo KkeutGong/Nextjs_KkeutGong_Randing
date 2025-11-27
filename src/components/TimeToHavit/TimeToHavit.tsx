@@ -41,8 +41,8 @@ export default function TimeToHavit(): JSX.Element {
         />
       </motion.div>
       <motion.div
-        className={Styles.TimeToHavit__title}
-        initial={{ opacity: 0, y: 30 }}
+        className={Styles.TimeToHavit__subtitle}
+        initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
@@ -61,9 +61,9 @@ export default function TimeToHavit(): JSX.Element {
         className={Styles.TimeToHavit__store}
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.8 }}
+        transition={{ duration: 0.8, delay: 0.7 }}
       >
-        <Button type="reservation" text="사전예약" />
+        <Button type="reservation" text="사전 예약하기" />
       </motion.div>
     </motion.div>
   );

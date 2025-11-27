@@ -14,55 +14,35 @@ export default function Main(): JSX.Element {
     <div className={Styles.Main}>
       <motion.div
         className={Styles.Main__title}
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
       >
-        포기하지 않는 경험을 만듭니다.
+        포기하지 않는 경험
       </motion.div>
       <motion.div
         className={Styles.Main__logo}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
       >
         끝공
       </motion.div>
       <motion.div
         className={Styles.Main__introText}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
       >
-        AI가 매일의 학습 루틴을 설계하고 &nbsp;
-        <motion.span
-          className={Styles['Main__introText--strong']}
-          animate={{
-            backgroundPosition: ['0%', '100%', '0%'],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-          style={{
-            background: 'linear-gradient(90deg, #fff 0%, #4169E1 50%, #fff 100%)',
-            backgroundSize: '200% 100%',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
-        >
-          합격까지 이끌어 드립니다.
-        </motion.span>
+        AI가 매일의 학습 루틴을 설계하고 합격까지 이끌어 드립니다.
       </motion.div>
       <motion.div
         className={Styles.Main__store}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
       >
-        <Button type="reservation" text="사전예약" />
+        <Button type="reservation" text="'끝공' 사전 예약하기" />
       </motion.div>
       <div className={Styles.Main__image}>
         <Image
@@ -72,8 +52,10 @@ export default function Main(): JSX.Element {
           height={716}
           priority
           fetchPriority="high"
-          sizes="(max-width: 1200px) 100vw, 960px"
-          quality={85}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 960px"
+          quality={90}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
         />
       </div>
     </div>

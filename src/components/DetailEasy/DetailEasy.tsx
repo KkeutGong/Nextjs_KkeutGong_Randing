@@ -92,7 +92,10 @@ export default function DetailEasy(): JSX.Element {
           <Image
             src={onboardingSrc}
             alt="onboarding image"
-            style={{ width: '100%', height: 'auto' }}
+            width={2240}
+            height={2000}
+            sizes="(max-width: 1200px) 100vw, 960px"
+            quality={85}
             priority
           />
         </motion.div>
@@ -100,5 +103,7 @@ export default function DetailEasy(): JSX.Element {
     </motion.div>
   );
 }
+
+
 
 

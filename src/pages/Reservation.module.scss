@@ -80,6 +80,22 @@
   }
 }
 
+.inputError {
+  border-color: #e74c3c !important;
+
+  &:focus {
+    border-color: #e74c3c !important;
+  }
+}
+
+.errorMessage {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
 .textarea {
   resize: vertical;
   min-height: 120px;
@@ -229,5 +245,7 @@
     opacity: 0.8;
   }
 }
+
+
 
 

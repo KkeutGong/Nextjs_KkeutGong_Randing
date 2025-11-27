@@ -1,0 +1,30 @@
+.SocialShare {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+}
+
+.SocialShare__label {
+  font-size: 0.875rem;
+  color: var(--text-gray);
+  font-weight: 500;
+}
+
+.SocialShare__buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.SocialShare__button {
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+

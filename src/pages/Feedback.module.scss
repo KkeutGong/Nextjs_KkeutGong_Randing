@@ -89,6 +89,23 @@
   }
 }
 
+.inputError {
+  border-color: #d93025 !important;
+
+  &:focus {
+    border-color: #d93025 !important;
+    box-shadow: 0 0 0 2px rgba(217, 48, 37, 0.2);
+  }
+}
+
+.errorMessage {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #d93025;
+  font-weight: 500;
+}
+
 .select {
   height: 2.25rem;
   cursor: pointer;
@@ -226,5 +243,8 @@
     text-decoration: underline;
   }
 }
+
+
+
 
 

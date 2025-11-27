@@ -1,0 +1,137 @@
+@import '@/styles/responsive.module.scss';
+@import '@/styles/variable.module.scss';
+
+.WhyExist {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--main-background);
+  font-family: 'Pretendard';
+  letter-spacing: -0.06em;
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(65, 105, 225, 0.1) 0%,
+      transparent 70%
+    );
+    animation: pulse 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 1;
+
+    @include mobile {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__emphasis {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+
+    @include mobile {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__description {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--white-gray);
+    text-align: center;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 3rem;
+
+    @include mobile {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    &__flow {
+      color: #4169E1;
+      font-weight: 700;
+    }
+  }
+
+  &__flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+    margin-top: 2rem;
+
+    @include mobile {
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    &__item {
+      padding: 1rem 2rem;
+      background: rgba(65, 105, 225, 0.2);
+      border: 2px solid rgba(65, 105, 225, 0.5);
+      border-radius: 12px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--white);
+
+      @include mobile {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    &__arrow {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #4169E1;
+
+      @include mobile {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+

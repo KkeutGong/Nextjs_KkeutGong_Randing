@@ -14,6 +14,12 @@ export default function Document() {
         <meta property="og:image:height" content="400" />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:url" content={siteUrl} />
+        {/* LCP 이미지 preload - 메인 이미지 우선 로드 */}
+        <link
+          rel="preload"
+          as="image"
+          href="/static/images/mockup-main-lg.webp"
+        />
       </Head>
       <body>
         <Main />

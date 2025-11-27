@@ -1,32 +1,36 @@
 import { NextSeo } from 'next-seo';
-import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import toast from 'react-hot-toast';
 import { Footer } from '@/components/Footer';
 import styles from './Feedback.module.scss';
 
+const feedbackSchema = z.object({
+  name: z.string().min(2, '이름은 2자 이상 입력해주세요.').max(50, '이름은 50자 이하로 입력해주세요.').optional().or(z.literal('')),
+  email: z.string().email('올바른 이메일 주소를 입력해주세요.').optional().or(z.literal('')),
+  phone: z.string().regex(/^[0-9-]+$/, '올바른 전화번호 형식을 입력해주세요.').optional().or(z.literal('')),
+  category: z.string().optional(),
+  message: z.string().min(10, '피드백은 10자 이상 입력해주세요.').max(1000, '피드백은 1000자 이하로 입력해주세요.'),
+});
+
+type FeedbackFormData = z.infer<typeof feedbackSchema>;
+
 export default function Feedback() {
-  const [formData, setFormData] = useState({
-    category: '',
-    subject: '',
-    content: '',
-    email: '',
+  const [submitted, setSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<FeedbackFormData>({
+    resolver: zodResolver(feedbackSchema),
+    mode: 'onBlur',
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
+  const onSubmit = async (data: FeedbackFormData) => {
     try {
       // 이메일 전송 API 호출
       const response = await fetch('/api/send-email', {
@@ -35,58 +39,57 @@ export default function Feedback() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          to: formData.email || 'junwon@hyphen.it.com',
-          subject: `[끝공 피드백] ${formData.subject || '피드백 제출'}`,
-          category: formData.category,
-          content: formData.content,
+          to: data.email || 'junwon@hyphen.it.com',
+          subject: '[끝공 피드백] 피드백 접수',
+          name: data.name,
+          phone: data.phone,
+          category: data.category,
+          content: data.message,
           type: 'feedback',
         }),
       });
 
       if (response.ok) {
         setSubmitted(true);
+        reset();
+        toast.success('피드백이 성공적으로 접수되었습니다!');
       } else {
-        alert('피드백 제출에 실패했습니다. 다시 시도해주세요.');
+        toast.error('피드백 제출에 실패했습니다. 다시 시도해주세요.');
       }
     } catch (error) {
       console.error('Error submitting feedback:', error);
-      alert('피드백 제출에 실패했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsSubmitting(false);
+      toast.error('피드백 제출에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
   return (
     <>
-      <NextSeo title="서비스 피드백 - 끝공" />
+      <NextSeo title="피드백 - 끝공" />
       <div className={styles.container}>
         <div className={styles.content}>
-          <h1 className={styles.title}>서비스 피드백</h1>
+          <h1 className={styles.title}>피드백</h1>
           <div className={styles.description}>
-            끝공 서비스를 이용하시면서 불편하셨던 점이나 개선되었으면 하는 점을
-            알려주세요. 여러분의 소중한 의견은 더 나은 서비스를 만드는 데 큰
-            도움이 됩니다.
+            끝공 서비스를 개선하기 위해 여러분의 소중한 의견을 기다리고 있습니다.
+            불편사항, 개선 제안, 새로운 기능 아이디어 등 무엇이든 자유롭게 남겨주세요.
           </div>
 
           {!submitted ? (
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
               <div className={styles.formSection}>
                 <div className={styles.question}>
-                  <label className={styles.questionLabel}>
-                    피드백 유형 <span className={styles.required}>*</span>
+                  <label htmlFor="category" className={styles.questionLabel}>
+                    피드백 유형
                   </label>
                   <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
+                    id="category"
+                    {...register('category')}
                     className={styles.select}
-                    required
                   >
                     <option value="">선택해주세요</option>
                     <option value="버그신고">버그 신고</option>
                     <option value="기능제안">기능 제안</option>
-                    <option value="UI개선">UI/UX 개선</option>
-                    <option value="성능개선">성능 개선</option>
+                    <option value="개선사항">개선 사항</option>
+                    <option value="불편사항">불편 사항</option>
                     <option value="기타">기타</option>
                   </select>
                 </div>
@@ -94,54 +97,79 @@ export default function Feedback() {
 
               <div className={styles.formSection}>
                 <div className={styles.question}>
-                  <label className={styles.questionLabel}>
-                    제목 <span className={styles.required}>*</span>
+                  <label htmlFor="message" className={styles.questionLabel}>
+                    피드백 내용 <span className={styles.required}>*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    {...register('message')}
+                    className={`${styles.textarea} ${errors.message ? styles.inputError : ''}`}
+                    rows={8}
+                    placeholder="피드백을 자세히 작성해주세요 (최소 10자 이상)"
+                  />
+                  {errors.message && (
+                    <span className={styles.errorMessage}>{errors.message.message}</span>
+                  )}
+                  <div className={styles.helpText}>
+                    구체적인 내용을 작성해주시면 더 나은 서비스 개선에 도움이 됩니다.
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.formSection}>
+                <div className={styles.question}>
+                  <label htmlFor="name" className={styles.questionLabel}>
+                    이름
                   </label>
                   <input
                     type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className={styles.input}
-                    required
-                    placeholder="피드백 제목을 입력해주세요"
+                    id="name"
+                    {...register('name')}
+                    className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+                    placeholder="이름을 입력해주세요 (선택사항)"
                   />
+                  {errors.name && (
+                    <span className={styles.errorMessage}>{errors.name.message}</span>
+                  )}
                 </div>
               </div>
 
               <div className={styles.formSection}>
                 <div className={styles.question}>
-                  <label className={styles.questionLabel}>
-                    내용 <span className={styles.required}>*</span>
-                  </label>
-                  <textarea
-                    name="content"
-                    value={formData.content}
-                    onChange={handleChange}
-                    className={styles.textarea}
-                    rows={10}
-                    required
-                    placeholder="피드백 내용을 상세히 입력해주세요"
-                  />
-                </div>
-              </div>
-
-              <div className={styles.formSection}>
-                <div className={styles.question}>
-                  <label className={styles.questionLabel}>
-                    이메일 (답변 받으실 주소)
+                  <label htmlFor="email" className={styles.questionLabel}>
+                    이메일
                   </label>
                   <input
                     type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={styles.input}
+                    id="email"
+                    {...register('email')}
+                    className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
                     placeholder="이메일을 입력해주세요 (선택사항)"
                   />
+                  {errors.email && (
+                    <span className={styles.errorMessage}>{errors.email.message}</span>
+                  )}
                   <div className={styles.helpText}>
-                    이메일을 입력하시면 피드백에 대한 답변을 받으실 수 있습니다.
+                    답변을 받으시려면 이메일을 입력해주세요.
                   </div>
+                </div>
+              </div>
+
+              <div className={styles.formSection}>
+                <div className={styles.question}>
+                  <label htmlFor="phone" className={styles.questionLabel}>
+                    연락처
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    {...register('phone')}
+                    className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
+                    placeholder="연락처를 입력해주세요 (선택사항)"
+                  />
+                  {errors.phone && (
+                    <span className={styles.errorMessage}>{errors.phone.message}</span>
+                  )}
                 </div>
               </div>
 
@@ -151,52 +179,48 @@ export default function Feedback() {
                   className={styles.submitButton}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? '제출 중...' : '제출하기'}
+                  {isSubmitting ? '제출 중...' : '피드백 제출하기'}
                 </button>
               </div>
             </form>
           ) : (
             <div className={styles.successMessage}>
-              <h2>피드백이 제출되었습니다!</h2>
+              <h2>피드백이 접수되었습니다!</h2>
               <p>
-                소중한 피드백 감사합니다. 검토 후 우선순위에 따라 개선 작업에
-                반영하겠습니다.
+                소중한 피드백 감사합니다. 검토 후 개선에 반영하겠습니다.
               </p>
-              {formData.email && (
-                <p>
-                  답변이 필요하시면 {formData.email}로 안내드리겠습니다.
-                </p>
-              )}
+              <p>
+                추가 문의사항이 있으시면{' '}
+                <a
+                  href="mailto:junwon@hyphen.it.com"
+                  className={styles.emailLink}
+                >
+                  junwon@hyphen.it.com
+                </a>
+                으로 연락주세요.
+              </p>
             </div>
           )}
 
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>피드백 처리 안내</h2>
+            <h2 className={styles.sectionTitle}>피드백 안내</h2>
             <div className={styles.infoBox}>
               <ul>
                 <li>
-                  모든 피드백은 검토 후 우선순위에 따라 개선 작업에 반영됩니다.
+                  피드백은 검토 후 서비스 개선에 반영됩니다.
                 </li>
                 <li>
-                  개인정보가 포함된 피드백의 경우, 개인정보 보호를 위해
-                  익명화하여 처리할 수 있습니다.
+                  이메일을 입력하신 경우, 필요시 답변을 드릴 수 있습니다.
                 </li>
                 <li>
-                  피드백에 대한 답변은 이메일로 개별 안내드리며, 공통적으로
-                  개선된 사항은 공지사항을 통해 안내드립니다.
+                  개인정보는 피드백 처리 목적으로만 사용되며, 개인정보 처리방침에 따라 보호됩니다.
                 </li>
                 <li>
-                  피드백 제출 후 1-2주 내에 검토 결과를 안내드립니다.
-                </li>
-                <li>
-                  추가 문의사항이 있으시면{' '}
-                  <a
-                    href="mailto:junwon@hyphen.it.com"
-                    className={styles.emailLink}
-                  >
-                    junwon@hyphen.it.com
+                  개인정보 처리방침은{' '}
+                  <a href="/privacy" className={styles.emailLink}>
+                    여기
                   </a>
-                  으로 연락주세요.
+                  를 참고해주세요.
                 </li>
               </ul>
             </div>

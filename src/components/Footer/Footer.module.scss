@@ -1,3 +1,6 @@
+@import '@/styles/responsive.module.scss';
+@import '@/styles/variable.module.scss';
+
 .Footer {
   display: flex;
   flex-direction: column;
@@ -9,10 +12,11 @@
   font-weight: 400;
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+
+  @include mobile {
+    padding: 1.5rem 1rem 0 1rem;
+  }
 
   &::before {
     content: '';
@@ -37,11 +41,32 @@
     font-size: 1rem;
     color: var(--white-gray);
 
+    @include tablet {
+      width: 70vw;
+      font-size: 0.9rem;
+    }
+
+    @include mobile {
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      justify-content: center;
+    }
+
     a {
       position: relative;
       transition: all 0.3s ease;
       padding: 0.5rem 1rem;
       border-radius: 8px;
+
+      @include mobile {
+        padding: 0.5rem 0.75rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
       &::after {
         content: '';
@@ -64,6 +89,14 @@
   &__line {
     margin-bottom: 1rem;
     width: 50vw;
+
+    @include tablet {
+      width: 70vw;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   &__email {
@@ -71,6 +104,13 @@
     color: var(--white-gray-6);
     transition: all 0.3s ease;
     cursor: pointer;
+    text-align: center;
+
+    @include mobile {
+      font-size: 0.875rem;
+      padding: 0 1rem;
+      word-break: break-all;
+    }
   }
 
   &__copyright {
@@ -78,5 +118,12 @@
     color: var(--white);
     font-size: 1rem;
     font-weight: 600;
+    text-align: center;
+
+    @include mobile {
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+      padding: 0 1rem;
+    }
   }
 }

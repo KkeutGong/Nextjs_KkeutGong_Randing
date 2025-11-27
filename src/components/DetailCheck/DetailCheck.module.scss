@@ -1,3 +1,6 @@
+@import '@/styles/responsive.module.scss';
+@import '@/styles/variable.module.scss';
+
 .DetailCheck {
   display: flex;
   flex-direction: column;
@@ -13,6 +16,12 @@
   overflow: hidden;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+
+  @include mobile {
+    padding: 0 1rem;
+    min-height: auto;
+    height: auto;
+  }
 
   &::before {
     content: '';
@@ -51,6 +60,16 @@
     color: var(--black);
     position: relative;
     z-index: 1;
+
+    @include tablet {
+      font-size: 2rem;
+    }
+
+    @include mobile {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+      padding: 0 1rem;
+    }
   }
 
   &__detail {
@@ -61,6 +80,18 @@
     text-align: center;
     position: relative;
     z-index: 1;
+
+    @include tablet {
+      font-size: 1.125rem;
+      margin-bottom: 3rem;
+    }
+
+    @include mobile {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
+      line-height: 1.6;
+    }
 
     & > div {
       margin-bottom: 0.5rem;
@@ -75,6 +106,17 @@
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
+
+    @include tablet {
+      width: 80vw;
+      border-radius: 16px;
+    }
+
+    @include mobile {
+      width: 100%;
+      border-radius: 12px;
+      padding: 0 0.5rem;
+    }
 
     &:hover {
       box-shadow: 0 30px 80px rgba(65, 105, 225, 0.2);

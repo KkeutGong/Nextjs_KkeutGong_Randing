@@ -1,3 +1,6 @@
+@import '@/styles/responsive.module.scss';
+@import '@/styles/variable.module.scss';
+
 .DetailEasy {
   display: flex;
   justify-content: space-evenly;
@@ -12,6 +15,20 @@
   overflow: hidden;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 3rem;
+    padding: 2rem 1rem;
+  }
+
+  @include mobile {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem 1rem;
+    min-height: auto;
+    height: auto;
+  }
 
   &::before {
     content: '';
@@ -52,6 +69,17 @@
       color: var(--black);
       position: relative;
 
+      @include tablet {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      @include mobile {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
       &::after {
         content: '';
         position: absolute;
@@ -61,6 +89,12 @@
         height: 3px;
         background: linear-gradient(90deg, #4169E1, #5a7ff0);
         animation: expandWidth 0.8s ease-out 0.5s both;
+
+        @include mobile {
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80%;
+        }
       }
     }
 
@@ -78,6 +112,16 @@
       font-weight: 400;
       color: var(--text-gray);
 
+      @include tablet {
+        font-size: 1.125rem;
+      }
+
+      @include mobile {
+        font-size: 1rem;
+        text-align: center;
+        line-height: 1.6;
+      }
+
       &--strong {
         margin-top: 0.5rem;
         font-weight: 600;
@@ -91,12 +135,32 @@
     position: relative;
     z-index: 1;
 
+    @include tablet {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    @include mobile {
+      width: 100%;
+      order: -1;
+    }
+
     &__image {
       width: 46rem;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
       transition: box-shadow 0.3s ease;
+
+      @include tablet {
+        width: 100%;
+        border-radius: 16px;
+      }
+
+      @include mobile {
+        width: 100%;
+        border-radius: 12px;
+      }
     }
   }
 }

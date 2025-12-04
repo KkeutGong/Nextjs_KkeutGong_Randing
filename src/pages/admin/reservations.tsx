@@ -1,6 +1,5 @@
 import { NextSeo } from 'next-seo';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './Reservations.module.scss';
 
 interface Reservation {
@@ -15,21 +14,62 @@ interface Reservation {
 }
 
 export default function AdminReservations() {
-  const router = useRouter();
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    // 클라이언트 사이드에서만 실행
-    const storedAuth = sessionStorage.getItem('admin_authenticated');
-    if (storedAuth === 'true') {
-      setIsAuthenticated(true);
-      fetchReservations();
+  const fetchReservations = useCallback(async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const token = typeof window !== 'undefined' ? sessionStorage.getItem('admin_token') : null;
+      const response = await fetch('/api/reservations', {
+        headers: {
+          Authorization: `Bearer ${token || ''}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setReservations(data.data || []);
+      } else {
+        if (response.status === 401) {
+          setIsAuthenticated(false);
+          if (typeof window !== 'undefined') {
+            sessionStorage.removeItem('admin_authenticated');
+            sessionStorage.removeItem('admin_token');
+          }
+          setError('인증이 만료되었습니다. 다시 로그인해주세요.');
+        } else {
+          setError('사전예약 목록을 불러오는데 실패했습니다.');
+        }
+      }
+    } catch (err) {
+      setError('사전예약 목록을 불러오는데 실패했습니다.');
+    } finally {
+      setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    setMounted(true);
+    // 클라이언트 사이드에서만 실행
+    if (typeof window !== 'undefined') {
+      try {
+        const storedAuth = sessionStorage.getItem('admin_authenticated');
+        if (storedAuth === 'true') {
+          setIsAuthenticated(true);
+          fetchReservations();
+        }
+      } catch (err) {
+        console.error('Error checking authentication:', err);
+      }
+    }
+  }, [fetchReservations]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,8 +89,10 @@ export default function AdminReservations() {
       if (response.ok) {
         const data = await response.json();
         setIsAuthenticated(true);
-        sessionStorage.setItem('admin_authenticated', 'true');
-        sessionStorage.setItem('admin_token', data.token);
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('admin_authenticated', 'true');
+          sessionStorage.setItem('admin_token', data.token);
+        }
         await fetchReservations();
       } else {
         setError('비밀번호가 올바르지 않습니다.');
@@ -62,40 +104,12 @@ export default function AdminReservations() {
     }
   };
 
-  const fetchReservations = async () => {
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch('/api/reservations', {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('admin_token') || ''}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setReservations(data.data || []);
-      } else {
-        if (response.status === 401) {
-          setIsAuthenticated(false);
-          sessionStorage.removeItem('admin_authenticated');
-          setError('인증이 만료되었습니다. 다시 로그인해주세요.');
-        } else {
-          setError('사전예약 목록을 불러오는데 실패했습니다.');
-        }
-      }
-    } catch (err) {
-      setError('사전예약 목록을 불러오는데 실패했습니다.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleLogout = () => {
     setIsAuthenticated(false);
-    sessionStorage.removeItem('admin_authenticated');
-    sessionStorage.removeItem('admin_token');
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('admin_authenticated');
+      sessionStorage.removeItem('admin_token');
+    }
     setPassword('');
     setReservations([]);
   };
@@ -110,6 +124,39 @@ export default function AdminReservations() {
       minute: '2-digit',
     });
   };
+
+  // 서버 사이드 렌더링 방지 - 초기 렌더링 시 로그인 화면 표시
+  if (!mounted) {
+    return (
+      <>
+        <NextSeo title="관리자 로그인 - 끝공" noindex />
+        <div 
+          className={styles.container}
+          style={{ minHeight: '100vh', backgroundColor: '#f5f5f5', padding: '2rem' }}
+        >
+          <div 
+            className={styles.loginContainer}
+            style={{ 
+              maxWidth: '400px', 
+              margin: '10rem auto', 
+              background: 'white', 
+              padding: '3rem', 
+              borderRadius: '12px', 
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' 
+            }}
+          >
+            <h1 
+              className={styles.loginTitle}
+              style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '2rem', textAlign: 'center', color: '#202124' }}
+            >
+              관리자 로그인
+            </h1>
+            <div style={{ textAlign: 'center', padding: '2rem', color: '#646464' }}>로딩 중...</div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

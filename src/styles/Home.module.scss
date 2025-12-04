@@ -1,0 +1,9 @@
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.main > *:not([data-no-snap]) {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}

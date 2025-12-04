@@ -1,0 +1,195 @@
+@import '@/styles/responsive.module.scss';
+@import '@/styles/variable.module.scss';
+
+.TimeToHavit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 2rem 2rem 0 2rem;
+  height: 100vh;
+  min-height: 100vh;
+  background: var(--purple-background);
+  font-family: 'Pretendard';
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+
+  @include tablet {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+  }
+
+  @include mobile {
+    padding: 1.5rem 1rem 0 1rem;
+  }
+
+  @include smallMobile {
+    padding: 1.25rem 0.75rem 0 0.75rem;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    animation: shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes shimmer {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  &__image {
+    margin-top: -2rem;
+    margin-left: 5rem;
+    width: 60vw;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.3));
+    transition: filter 0.3s ease;
+
+    @include tablet {
+      margin-top: -1rem;
+      margin-left: 0;
+      width: 70vw;
+      max-width: 500px;
+    }
+
+    @include mobile {
+      margin-top: 0;
+      margin-left: 0;
+      width: 80vw;
+      max-width: 400px;
+    }
+
+    @include smallMobile {
+      width: 85vw;
+      max-width: 320px;
+    }
+  }
+
+  &__title {
+    margin-bottom: 1.5rem;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    line-height: 1.3;
+  }
+
+  &__subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: -0.06em;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    word-break: keep-all;
+
+    @include tablet {
+      font-size: 1.375rem;
+      margin-bottom: 0.875rem;
+    }
+
+    @include mobile {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      padding: 0 1rem;
+      line-height: 1.4;
+    }
+
+    @include smallMobile {
+      font-size: 1.125rem;
+      margin-bottom: 0.625rem;
+      padding: 0 0.75rem;
+    }
+
+    > div {
+      margin-bottom: 0.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__detail {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    word-break: keep-all;
+    line-height: 1.6;
+
+    @include tablet {
+      font-size: 1.125rem;
+    }
+
+    @include mobile {
+      font-size: 1rem;
+      padding: 0 1rem;
+      line-height: 1.5;
+    }
+
+    @include smallMobile {
+      font-size: 0.9375rem;
+      padding: 0 0.75rem;
+    }
+
+    > div {
+      word-break: keep-all;
+    }
+  }
+
+  &__store {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 8rem;
+    color: var(--white);
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+
+    @include tablet {
+      margin-top: 1.5rem;
+      margin-bottom: 4rem;
+      gap: 0.875rem;
+    }
+
+    @include mobile {
+      margin-top: 1.25rem;
+      margin-bottom: 3rem;
+      gap: 0.75rem;
+      padding: 0 1rem;
+    }
+
+    @include smallMobile {
+      margin-top: 1rem;
+      margin-bottom: 2.5rem;
+      gap: 0.625rem;
+      padding: 0 0.75rem;
+    }
+  }
+}

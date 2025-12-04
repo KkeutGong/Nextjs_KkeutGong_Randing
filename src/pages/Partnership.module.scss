@@ -1,0 +1,325 @@
+@import '@/styles/responsive.module.scss';
+@import '@/styles/variable.module.scss';
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  font-family: 'Pretendard';
+  line-height: 1.8;
+  color: var(--black);
+
+  @include mobile {
+    padding: 3rem 1.5rem;
+  }
+
+  @include smallMobile {
+    padding: 2rem 1rem;
+  }
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--black);
+  word-break: keep-all;
+
+  @include mobile {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @include smallMobile {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.description {
+  font-size: 1.125rem;
+  margin-bottom: 3rem;
+  color: var(--text-gray);
+  line-height: 1.8;
+  word-break: keep-all;
+
+  @include mobile {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  @include smallMobile {
+    font-size: 0.9375rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+}
+
+.section {
+  margin-bottom: 3rem;
+
+  @include mobile {
+    margin-bottom: 2.5rem;
+  }
+
+  @include smallMobile {
+    margin-bottom: 2rem;
+  }
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--black);
+  word-break: keep-all;
+
+  @include mobile {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @include smallMobile {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  @include mobile {
+    gap: 1.75rem;
+  }
+
+  @include smallMobile {
+    gap: 1.5rem;
+  }
+}
+
+.listItem {
+  strong {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--black);
+    word-break: keep-all;
+
+    @include mobile {
+      font-size: 1.125rem;
+      margin-bottom: 0.625rem;
+    }
+
+    @include smallMobile {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    word-break: keep-all;
+
+    @include mobile {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    @include smallMobile {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+  }
+}
+
+.contactBox {
+  background-color: var(--gray-background);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+
+  @include mobile {
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-top: 0.875rem;
+  }
+
+  @include smallMobile {
+    padding: 1.25rem;
+    border-radius: 6px;
+    margin-top: 0.75rem;
+  }
+}
+
+.contactItem {
+  margin-bottom: 2rem;
+
+  @include mobile {
+    margin-bottom: 1.75rem;
+  }
+
+  @include smallMobile {
+    margin-bottom: 1.5rem;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  strong {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--black);
+    word-break: keep-all;
+
+    @include mobile {
+      font-size: 1rem;
+      margin-bottom: 0.875rem;
+    }
+
+    @include smallMobile {
+      font-size: 0.9375rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+
+    li {
+      font-size: 1.125rem;
+      color: var(--text-gray);
+      line-height: 1.8;
+      margin-bottom: 0.75rem;
+      padding-left: 1.5rem;
+      position: relative;
+      word-break: keep-all;
+
+      @include mobile {
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 0.625rem;
+        padding-left: 1.25rem;
+      }
+
+      @include smallMobile {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+        padding-left: 1rem;
+      }
+
+      &::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: #4169E1;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.emailLink {
+  display: inline-block;
+  font-size: 1.125rem;
+  color: #4169E1;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: opacity 0.2s;
+  word-break: break-all;
+
+  @include mobile {
+    font-size: 1rem;
+  }
+
+  @include smallMobile {
+    font-size: 0.9375rem;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.infoBox {
+  background-color: var(--gray-background);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+
+  @include mobile {
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-top: 0.875rem;
+  }
+
+  @include smallMobile {
+    padding: 1.25rem;
+    border-radius: 6px;
+    margin-top: 0.75rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+
+    li {
+      font-size: 1.125rem;
+      color: var(--text-gray);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      position: relative;
+      word-break: keep-all;
+
+      @include mobile {
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 0.875rem;
+        padding-left: 1.25rem;
+      }
+
+      @include smallMobile {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        margin-bottom: 0.75rem;
+        padding-left: 1rem;
+      }
+
+      &::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: #4169E1;
+        font-weight: bold;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+
+
+
+

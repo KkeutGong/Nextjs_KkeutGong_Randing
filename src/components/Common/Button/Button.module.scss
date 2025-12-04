@@ -1,0 +1,92 @@
+.Button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 14rem;
+  padding: 0.5rem 2rem;
+  background-color: var(--tag-white-gray-background);
+  border: 1px solid var(--white-gray-border);
+  border-radius: 5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(65, 105, 225, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &__logoWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--tag-ellipse-background);
+    border-radius: 3rem;
+    transition: transform 0.3s ease;
+
+    .Button:hover & {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    &__logo {
+      height: auto;
+      transition: transform 0.3s ease;
+
+      &--google {
+        width: 1.5rem;
+      }
+
+      &--apple {
+        width: 1.35rem;
+      }
+    }
+  }
+
+  &__nameWrapper {
+    display: flex;
+    justify-content: center;
+    min-width: fit-content;
+
+    &__name {
+      font-family: 'Pretendard';
+      font-weight: 600;
+      font-size: 1.25rem;
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  &:hover &__nameWrapper__name {
+    transform: scale(1.02);
+  }
+}

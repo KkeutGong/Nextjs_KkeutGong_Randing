@@ -17,9 +17,9 @@ export default function Button(props: Props) {
   return (
     <a
       className={Styles.Button}
-      target="_blank"
+      target={type === 'reservation' ? undefined : '_blank'}
       href={LINK_LIST[type]}
-      rel="noreferrer"
+      rel={type === 'reservation' ? undefined : 'noreferrer'}
     >
       {imageSrc && (
         <div className={Styles.Button__logoWrapper}>

@@ -1,11 +1,11 @@
-import { NextSeo } from 'next-seo';
+'use client';
+
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
-import { Footer } from '@/components/Footer';
-import styles from './Reservation.module.scss';
+import styles from './ReservationModal.module.scss';
 
 const CERTIFICATION_OPTIONS = [
   '컴퓨터활용능력 1급',
@@ -33,7 +33,12 @@ const reservationSchema = z.object({
 
 type ReservationFormData = z.infer<typeof reservationSchema>;
 
-export default function Reservation() {
+interface ReservationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function ReservationModal({ isOpen, onClose }: ReservationModalProps) {
   const [submitted, setSubmitted] = useState(false);
   const [selectedCertifications, setSelectedCertifications] = useState<string[]>([]);
   const [otherCertification, setOtherCertification] = useState('');
@@ -57,11 +62,8 @@ export default function Reservation() {
     let updatedCertifications: string[];
     
     if (certification === '기타') {
-      // "기타" 선택/해제 처리
       if (checked) {
-        // 기존 "기타" 관련 항목 제거 후 새로 추가
         updatedCertifications = selectedCertifications.filter((cert) => !cert.startsWith('기타'));
-        // 기존에 "기타: 입력값" 형태가 있었다면 입력값 복원
         const existingOther = selectedCertifications.find((cert) => cert.startsWith('기타:'));
         if (existingOther) {
           const existingValue = existingOther.replace('기타: ', '');
@@ -69,12 +71,10 @@ export default function Reservation() {
         }
         updatedCertifications.push('기타');
       } else {
-        // "기타" 해제 시 모든 "기타" 관련 항목 제거 및 입력값 초기화
         updatedCertifications = selectedCertifications.filter((cert) => !cert.startsWith('기타'));
         setOtherCertification('');
       }
     } else {
-      // 다른 자격증 선택/해제 처리
       if (checked) {
         updatedCertifications = [...selectedCertifications, certification];
       } else {
@@ -89,7 +89,6 @@ export default function Reservation() {
   const updateCertificationValue = (certs: string[]) => {
     const finalCerts = [...certs];
     
-    // "기타"가 선택되어 있고 입력값이 있으면 "기타"를 "기타: 입력값"으로 교체
     const otherIndex = finalCerts.findIndex((cert) => cert === '기타' || cert.startsWith('기타:'));
     if (otherIndex !== -1) {
       if (otherCertification.trim()) {
@@ -104,7 +103,6 @@ export default function Reservation() {
 
   const handleOtherCertificationChange = (value: string) => {
     setOtherCertification(value);
-    // "기타"가 선택되어 있으면 값을 업데이트
     if (isOtherSelected) {
       updateCertificationValue(selectedCertifications);
     }
@@ -173,18 +171,40 @@ export default function Reservation() {
     }
   };
 
-  return (
-    <>
-      <NextSeo title="사전예약 - 끝공" />
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <h1 className={styles.title}>사전예약</h1>
-          <div className={styles.description}>
-            <p>끝공 서비스 출시를 기다려주시는 분들을 위해 사전예약을 받고 있습니다.</p>
-            <p>출시 시 우선적으로 알림을 받으실 수 있습니다.</p>
-          </div>
+  const handleClose = () => {
+    if (!isSubmitting) {
+      setSubmitted(false);
+      setSelectedCertifications([]);
+      setOtherCertification('');
+      reset({
+        name: '',
+        email: '',
+        phone: '',
+        certification: [],
+        interest: '',
+        message: '',
+      });
+      onClose();
+    }
+  };
 
-          {!submitted ? (
+  if (!isOpen) return null;
+
+  return (
+    <div className={styles.overlay} onClick={handleClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.closeButton} onClick={handleClose} disabled={isSubmitting}>
+          ×
+        </button>
+
+        {!submitted ? (
+          <>
+            <h2 className={styles.title}>사전예약</h2>
+            <div className={styles.description}>
+              <p>끝공 서비스 출시를 기다려주시는 분들을 위해 사전예약을 받고 있습니다.</p>
+              <p>출시 시 우선적으로 알림을 받으실 수 있습니다.</p>
+            </div>
+
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
               <div className={styles.formGroup}>
                 <label htmlFor="name" className={styles.label}>
@@ -251,9 +271,7 @@ export default function Reservation() {
                     
                     return (
                       <div key={certification} className={isOther ? styles.otherCertificationWrapper : ''}>
-                        <label
-                          className={styles.checkboxLabel}
-                        >
+                        <label className={styles.checkboxLabel}>
                           <input
                             type="checkbox"
                             value={certification}
@@ -281,10 +299,7 @@ export default function Reservation() {
                     );
                   })}
                 </div>
-                <input
-                  type="hidden"
-                  {...register('certification')}
-                />
+                <input type="hidden" {...register('certification')} />
               </div>
 
               <div className={styles.formGroup}>
@@ -328,7 +343,7 @@ export default function Reservation() {
                 </p>
                 <p>
                   개인정보 처리방침은{' '}
-                  <a href="/privacy" className={styles.link}>
+                  <a href="/privacy" className={styles.link} target="_blank" rel="noreferrer">
                     여기
                   </a>
                   를 참고해주세요.
@@ -343,58 +358,30 @@ export default function Reservation() {
                 {isSubmitting ? '제출 중...' : '사전예약 신청하기'}
               </button>
             </form>
-          ) : (
-            <div className={styles.successMessage}>
-              <h2>사전예약이 완료되었습니다!</h2>
-              <p>
-                사전예약이 성공적으로 접수되었습니다. 서비스 출시 시 알림을 보내드리겠습니다.
-              </p>
-              <p>
-                추가 문의사항이 있으시면{' '}
-                <a
-                  href="mailto:junwon@hyphen.it.com"
-                  className={styles.emailLink}
-                >
-                  junwon@hyphen.it.com
-                </a>
-                으로 연락주세요.
-              </p>
-            </div>
-          )}
-
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>사전예약 안내</h2>
-            <div className={styles.infoBox}>
-              <ul>
-                <li>
-                  사전예약을 하시면 서비스 출시 시 우선적으로 알림을 받으실 수
-                  있습니다.
-                </li>
-                <li>
-                  제공해주신 정보는 서비스 출시 알림 및 관련 안내 목적으로만
-                  사용됩니다.
-                </li>
-                <li>
-                  사전예약은 서비스 이용을 보장하는 것이 아니며, 출시 일정은
-                  변경될 수 있습니다.
-                </li>
-                <li>
-                  사전예약 취소를 원하시면{' '}
-                  <a
-                    href="mailto:junwon@hyphen.it.com"
-                    className={styles.emailLink}
-                  >
-                    junwon@hyphen.it.com
-                  </a>
-                  으로 연락주세요.
-                </li>
-              </ul>
-            </div>
-          </section>
-        </div>
-        <Footer />
+          </>
+        ) : (
+          <div className={styles.successMessage}>
+            <h2>사전예약이 완료되었습니다!</h2>
+            <p>
+              사전예약이 성공적으로 접수되었습니다. 서비스 출시 시 알림을 보내드리겠습니다.
+            </p>
+            <p>
+              추가 문의사항이 있으시면{' '}
+              <a
+                href="mailto:junwon@hyphen.it.com"
+                className={styles.emailLink}
+              >
+                junwon@hyphen.it.com
+              </a>
+              으로 연락주세요.
+            </p>
+            <button onClick={handleClose} className={styles.closeSuccessButton}>
+              닫기
+            </button>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 

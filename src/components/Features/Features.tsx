@@ -77,7 +77,7 @@ export default function Features(): JSX.Element {
   const secondPageFeatures = features.slice(2, 4);
 
   return (
-    <div className={Styles.Features} data-no-snap>
+    <div className={Styles.Features}>
       {/* 첫 번째 페이지: 첫 2개 카드 */}
       <motion.div
         ref={firstPageRef}

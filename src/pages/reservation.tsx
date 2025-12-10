@@ -11,7 +11,7 @@ const CERTIFICATION_OPTIONS = [
   '컴퓨터활용능력 1급',
   '컴퓨터활용능력 2급',
   '한국사능력검정시험',
-  '정보처리기사',
+  '정보처리기능사',
   '정보처리산업기사',
   'SQLD (SQL 개발자)',
   'SQLP (SQL 전문가)',
@@ -55,7 +55,7 @@ export default function Reservation() {
 
   const handleCertificationChange = (certification: string, checked: boolean) => {
     let updatedCertifications: string[];
-    
+
     if (certification === '기타') {
       // "기타" 선택/해제 처리
       if (checked) {
@@ -81,14 +81,14 @@ export default function Reservation() {
         updatedCertifications = selectedCertifications.filter((cert) => cert !== certification);
       }
     }
-    
+
     setSelectedCertifications(updatedCertifications);
     updateCertificationValue(updatedCertifications);
   };
 
   const updateCertificationValue = (certs: string[]) => {
     const finalCerts = [...certs];
-    
+
     // "기타"가 선택되어 있고 입력값이 있으면 "기타"를 "기타: 입력값"으로 교체
     const otherIndex = finalCerts.findIndex((cert) => cert === '기타' || cert.startsWith('기타:'));
     if (otherIndex !== -1) {
@@ -98,7 +98,7 @@ export default function Reservation() {
         finalCerts[otherIndex] = '기타';
       }
     }
-    
+
     setValue('certification', finalCerts, { shouldValidate: true });
   };
 
@@ -242,13 +242,13 @@ export default function Reservation() {
                   {CERTIFICATION_OPTIONS.map((certification) => {
                     const isOther = certification === '기타';
                     let isSelected: boolean;
-                    
+
                     if (isOther) {
                       isSelected = isOtherSelected;
                     } else {
                       isSelected = selectedCertifications.includes(certification);
                     }
-                    
+
                     return (
                       <div key={certification} className={isOther ? styles.otherCertificationWrapper : ''}>
                         <label

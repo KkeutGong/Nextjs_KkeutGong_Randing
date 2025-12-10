@@ -11,7 +11,7 @@ const CERTIFICATION_OPTIONS = [
   '컴퓨터활용능력 1급',
   '컴퓨터활용능력 2급',
   '한국사능력검정시험',
-  '정보처리기사',
+  '정보처리기능사',
   '정보처리산업기사',
   'SQLD (SQL 개발자)',
   'SQLP (SQL 전문가)',
@@ -60,7 +60,7 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
 
   const handleCertificationChange = (certification: string, checked: boolean) => {
     let updatedCertifications: string[];
-    
+
     if (certification === '기타') {
       if (checked) {
         updatedCertifications = selectedCertifications.filter((cert) => !cert.startsWith('기타'));
@@ -81,14 +81,14 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
         updatedCertifications = selectedCertifications.filter((cert) => cert !== certification);
       }
     }
-    
+
     setSelectedCertifications(updatedCertifications);
     updateCertificationValue(updatedCertifications);
   };
 
   const updateCertificationValue = (certs: string[]) => {
     const finalCerts = [...certs];
-    
+
     const otherIndex = finalCerts.findIndex((cert) => cert === '기타' || cert.startsWith('기타:'));
     if (otherIndex !== -1) {
       if (otherCertification.trim()) {
@@ -97,7 +97,7 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
         finalCerts[otherIndex] = '기타';
       }
     }
-    
+
     setValue('certification', finalCerts, { shouldValidate: true });
   };
 
@@ -262,13 +262,13 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
                   {CERTIFICATION_OPTIONS.map((certification) => {
                     const isOther = certification === '기타';
                     let isSelected: boolean;
-                    
+
                     if (isOther) {
                       isSelected = isOtherSelected;
                     } else {
                       isSelected = selectedCertifications.includes(certification);
                     }
-                    
+
                     return (
                       <div key={certification} className={isOther ? styles.otherCertificationWrapper : ''}>
                         <label className={styles.checkboxLabel}>

@@ -15,6 +15,37 @@ const nextConfig = {
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  // /docs 경로에 대한 404 에러 방지 (브라우저 확장 프로그램 등에서 요청하는 경우)
+  async rewrites() {
+    return [
+      {
+        source: '/docs',
+        destination: '/',
+      },
+    ];
+  },
+  // HTTP 헤더 설정
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
+      },
+    ];
+  },
   compress: true,
   poweredByHeader: false,
   generateEtags: false,

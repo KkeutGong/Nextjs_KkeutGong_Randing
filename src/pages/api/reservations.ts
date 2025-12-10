@@ -42,9 +42,19 @@ export default async function handler(
         return res.status(400).json({ error: '이름과 이메일은 필수입니다.' });
       }
 
-      const reservations: Reservation[] = JSON.parse(
-        fs.readFileSync(RESERVATIONS_FILE, 'utf-8')
-      );
+      let reservations: Reservation[] = [];
+      try {
+        if (fs.existsSync(RESERVATIONS_FILE)) {
+          const fileContent = fs.readFileSync(RESERVATIONS_FILE, 'utf-8');
+          const parsed = JSON.parse(fileContent);
+          if (Array.isArray(parsed)) {
+            reservations = parsed;
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to read/parse reservations file, starting with empty array.', e);
+        reservations = [];
+      }
 
       const newReservation: Reservation = {
         id: `reservation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -74,12 +84,12 @@ export default async function handler(
   } else if (req.method === 'GET') {
     // 관리자 인증 확인
     const authHeader = req.headers.authorization;
-    
+
     // 간단한 토큰 검증 (실제로는 더 안전한 방법 사용 권장)
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ error: '인증이 필요합니다.' });
     }
-    
+
     // 토큰이 존재하면 인증된 것으로 간주 (실제로는 JWT 등 사용 권장)
     const token = authHeader.replace('Bearer ', '');
     if (!token) {

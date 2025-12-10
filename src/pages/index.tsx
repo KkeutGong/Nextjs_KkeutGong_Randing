@@ -19,9 +19,11 @@ const WhyExist = dynamic(() => import('@/components/WhyExist'), {
 });
 const NoBook = dynamic(() => import('@/components/NoBook'), {
   loading: () => null,
+  ssr: false,
 });
 const Features = dynamic(() => import('@/components/Features'), {
   loading: () => null,
+  ssr: false,
 });
 const TimeToHavit = dynamic(() => import('@/components/TimeToHavit').then(mod => ({ default: mod.TimeToHavit })), {
   loading: () => null,

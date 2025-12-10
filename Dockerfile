@@ -44,9 +44,16 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
 # Copy necessary files from builder
+# Copy necessary files from builder
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Create data directory and file with correct permissions
+RUN mkdir -p /app/data && \
+    echo "[]" > /app/data/reservations.json && \
+    chown -R nextjs:nodejs /app/data && \
+    chmod -R 755 /app/data
 
 # Switch to non-root user
 USER nextjs

@@ -17,6 +17,9 @@ const MarketInfo = dynamic(() => import('@/components/MarketInfo'), {
 const WhyExist = dynamic(() => import('@/components/WhyExist'), {
   loading: () => null,
 });
+const NoBook = dynamic(() => import('@/components/NoBook'), {
+  loading: () => null,
+});
 const Features = dynamic(() => import('@/components/Features'), {
   loading: () => null,
 });
@@ -36,6 +39,7 @@ export default function Home() {
         <WhyFail />
         <MarketInfo />
         <WhyExist />
+        <NoBook />
         <Features />
         <TimeToHavit />
         <Footer />

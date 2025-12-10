@@ -1,0 +1,125 @@
+@import '@/styles/responsive.module.scss';
+@import '@/styles/variable.module.scss';
+
+.NoBook {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    min-height: 800px;
+    background-color: var(--black-background); // Use standard background
+    font-family: 'Pretendard';
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    z-index: 10; // Ensure it sits on top
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03), transparent 70%); // Much softer
+        pointer-events: none;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    &__icon {
+        font-size: 6rem;
+        margin-bottom: 2rem;
+        animation: fadePulse 3s infinite alternate;
+
+        @include mobile {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @keyframes fadePulse {
+        from {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+    }
+
+    &__mainText {
+        font-size: 5.5rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--white);
+        letter-spacing: -0.03em;
+        margin-bottom: 3rem;
+        word-break: keep-all;
+
+        span {
+            display: block; // Force break line for impact
+            background: linear-gradient(90deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @include tablet {
+            font-size: 4rem;
+        }
+
+        @include mobile {
+            font-size: 2.75rem;
+        }
+    }
+
+    &__subText {
+        font-size: 1.75rem;
+        color: var(--text-white-gray);
+        font-weight: 400;
+        line-height: 1.6;
+        max-width: 800px;
+        opacity: 0.8;
+        word-break: keep-all;
+
+        b {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        @include mobile {
+            font-size: 1.125rem;
+            max-width: 100%;
+        }
+    }
+
+    &__divider {
+        width: 2px;
+        height: 100px;
+        background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
+        margin: 3rem 0;
+
+        @include mobile {
+            height: 60px;
+            margin: 2rem 0;
+        }
+    }
+}

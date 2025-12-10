@@ -1,12 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 
 import Styles from './Features.module.scss';
 
-// 파일명에 공백이 있어서 경로를 직접 사용
+// Images
 const weaknessReviewImageSrc = '/static/images/Group 8.png';
 const aiRoutineImageSrc = '/static/images/Group 9.png';
 const progressVisualizationImageSrc = '/static/images/Group 11.png';
@@ -14,158 +14,112 @@ const notificationScheduleImageSrc = '/static/images/Group 10.png';
 
 const features = [
   {
-    title: 'AI 학습 루틴',
-    description: '시험 일정과 실력을 기반으로 자동 설계합니다.',
+    title: '시험일 맞춤 커리큘럼',
+    description: '목표 시험일까지 남은 기간을 계산해 매일 최적의 학습량을 설계합니다.',
     imageSrc: aiRoutineImageSrc,
-    width: 2240,
-    height: 2000,
   },
   {
-    title: '약점 반복 학습',
-    description: '틀리는 부분만 집중해 시간을 아낍니다.',
+    title: '핵심 개념 자동 생성',
+    description: '기출문제를 분석해 내가 모르는 개념만 쏙쏙 뽑아 정리해줍니다.',
     imageSrc: weaknessReviewImageSrc,
-    width: 2240,
-    height: 2000,
   },
   {
-    title: '진행률 시각화',
-    description: '오늘의 공부와 약점 변화가 한눈에 보입니다.',
+    title: '학습 데이터 시각화',
+    description: '나의 약점과 합격 확률 변화를 데이터로 한눈에 보여줍니다.',
     imageSrc: progressVisualizationImageSrc,
-    width: 3215,
-    height: 2024,
   },
   {
-    title: '알림 · 일정 관리',
-    description: '루틴이 무너지지 않도록 유지시켜줍니다.',
+    title: 'Bandit 알고리즘 알림',
+    description: '나의 행동 패턴을 분석해 가장 효과적인 시간에 학습을 유도합니다.',
     imageSrc: notificationScheduleImageSrc,
-    width: 3215,
-    height: 2024,
   },
 ];
 
 export default function Features(): JSX.Element {
-  const firstPageRef = useRef<HTMLDivElement>(null);
-  const secondPageRef = useRef<HTMLDivElement>(null);
-  const isFirstPageInView = useInView(firstPageRef, { once: true, amount: 0.2 });
-  const isSecondPageInView = useInView(secondPageRef, { once: true, amount: 0.2 });
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut',
-      },
-    },
-  };
-
-  // 4개 카드를 2개씩 2페이지로 나누기
-  const firstPageFeatures = features.slice(0, 2);
-  const secondPageFeatures = features.slice(2, 4);
+  // Use Intersection Observer for each text section
+  // Note: In a real "sticky" setup, we might simply track scroll position or use multiple observers.
+  // Here we will use a ref for each section and update activeIndex.
 
   return (
-    <div className={Styles.Features}>
-      {/* 첫 번째 페이지: 첫 2개 카드 */}
-      <motion.div
-        ref={firstPageRef}
-        className={Styles.Features__page}
-        variants={containerVariants}
-        initial="hidden"
-        animate={isFirstPageInView ? 'visible' : 'hidden'}
-      >
-        <motion.div
+    <div className={Styles.Features} data-no-snap="true">
+      <div className={Styles.Features__intro}>
+        <motion.h2
           className={Styles.Features__title}
-          variants={itemVariants}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          끝공은 이렇게 합격을 만듭니다.
-        </motion.div>
+          끝공은 이렇게
+          <br />
+          합격을 만듭니다.
+        </motion.h2>
+      </div>
 
-        <motion.div
-          className={Styles.Features__list}
-          variants={containerVariants}
-        >
-          {firstPageFeatures.map((feature, index) => (
-            <motion.div
-              key={index}
-              className={Styles.Features__item}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            >
-              <div className={Styles.Features__item__image}>
+      <div className={Styles.Features__stickyWrapper}>
+        {/* Sticky Image Container */}
+        <div className={Styles.Features__stickyContainer}>
+          <div className={Styles.Features__phoneFrame}>
+            {features.map((feature, index) => (
+              <div
+                key={`img-${index}`}
+                className={`${Styles.Features__image} ${activeIndex === index ? Styles.active : Styles.inactive}`}
+              >
                 <Image
                   src={feature.imageSrc}
                   alt={feature.title}
-                  width={feature.width}
-                  height={feature.height}
-                  style={{ width: '100%', height: 'auto' }}
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  fill
+                  style={{ objectFit: 'contain' }} // Ensure full image is visible
+                  priority={index === 0}
                 />
               </div>
-              <div className={Styles.Features__item__content}>
-                <div className={Styles.Features__item__title}>{feature.title}</div>
-                <div className={Styles.Features__item__description}>
-                  {feature.description}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
+            ))}
+          </div>
+        </div>
 
-      {/* 두 번째 페이지: 나머지 2개 카드 */}
-      <motion.div
-        ref={secondPageRef}
-        className={Styles.Features__page}
-        variants={containerVariants}
-        initial="hidden"
-        animate={isSecondPageInView ? 'visible' : 'hidden'}
-      >
-        <motion.div
-          className={Styles.Features__list}
-          variants={containerVariants}
-        >
-          {secondPageFeatures.map((feature, index) => (
-            <motion.div
-              key={index + 2}
-              className={Styles.Features__item}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            >
-              <div className={Styles.Features__item__image}>
-                <Image
-                  src={feature.imageSrc}
-                  alt={feature.title}
-                  width={feature.width}
-                  height={feature.height}
-                  style={{ width: '100%', height: 'auto' }}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-              <div className={Styles.Features__item__content}>
-                <div className={Styles.Features__item__title}>{feature.title}</div>
-                <div className={Styles.Features__item__description}>
-                  {feature.description}
-                </div>
-              </div>
-            </motion.div>
+        {/* Scroll Content */}
+        <div className={Styles.Features__scrollContent}>
+          {features.map((feature, index) => (
+            <FeatureTextSection
+              key={`txt-${index}`}
+              feature={feature}
+              index={index}
+              setActive={setActiveIndex}
+              isActive={activeIndex === index}
+            />
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FeatureTextSection({ feature, index, setActive, isActive }: any) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-50% 0px -50% 0px" }); // Center trigger
+
+  useEffect(() => {
+    if (isInView) {
+      setActive(index);
+    }
+  }, [isInView, index, setActive]);
+
+  return (
+    <div
+      ref={ref}
+      className={`${Styles.Features__textSection} ${isActive ? Styles.active : ''}`}
+    >
+      <div className={Styles.Features__textSection__num}>
+        {String(index + 1).padStart(2, '0')}
+      </div>
+      <h3 className={Styles.Features__textSection__heading}>
+        {feature.title}
+      </h3>
+      <p className={Styles.Features__textSection__desc}>
+        {feature.description}
+      </p>
     </div>
   );
 }

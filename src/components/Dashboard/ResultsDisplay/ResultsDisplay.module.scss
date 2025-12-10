@@ -1,0 +1,66 @@
+@import '@/styles/variable.module.scss';
+
+.results {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+
+  &__header {
+    margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+
+  &__tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 2px solid #f3f4f6;
+  }
+
+  &__tab {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: -2px;
+
+    &:hover {
+      color: #667eea;
+    }
+
+    &--active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+  }
+
+  &__content {
+    min-height: 400px;
+  }
+
+  @media (max-width: $tablet) {
+    padding: 1.5rem;
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__tab {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+}
+

@@ -1,0 +1,129 @@
+@import '@/styles/variable.module.scss';
+
+.uploader {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+  &__dropzone {
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fafafa;
+
+    &:hover {
+      border-color: #667eea;
+      background: #f5f7ff;
+    }
+
+    &--dragging {
+      border-color: #667eea;
+      background: #eef2ff;
+      transform: scale(1.02);
+    }
+
+    &--selected {
+      border-color: #10b981;
+      border-style: solid;
+      background: #f0fdf4;
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+  }
+
+  &__icon {
+    font-size: 4rem;
+    line-height: 1;
+  }
+
+  &__text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  &__hint {
+    font-size: 0.875rem;
+    color: #666;
+  }
+
+  &__filename {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #10b981;
+  }
+
+  &__size {
+    font-size: 0.875rem;
+    color: #666;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  &__buttonPrimary,
+  &__buttonSecondary {
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+  }
+
+  &__buttonPrimary {
+    background: #667eea;
+    color: white;
+
+    &:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+  }
+
+  &__buttonSecondary {
+    background: #f3f4f6;
+    color: #333;
+
+    &:hover {
+      background: #e5e7eb;
+    }
+  }
+
+  @media (max-width: $tablet) {
+    padding: 1.5rem;
+
+    &__dropzone {
+      padding: 2rem 1rem;
+    }
+
+    &__icon {
+      font-size: 3rem;
+    }
+
+    &__text {
+      font-size: 1rem;
+    }
+  }
+}
+

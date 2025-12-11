@@ -92,6 +92,34 @@ export default function Features(): JSX.Element {
           ))}
         </div>
       </div>
+
+      {/* Mobile Layout (Stacked) - Visible on Tablet/Mobile */}
+      <div className={Styles.Features__mobileLayout}>
+        {features.map((feature, index) => (
+          <div key={`mob-${index}`} className={Styles.Features__mobileItem}>
+            <div className={Styles.Features__mobileText}>
+              <div className={Styles.Features__mobileNum}>
+                {String(index + 1).padStart(2, '0')}
+              </div>
+              <h3 className={Styles.Features__mobileTitle}>
+                {feature.title}
+              </h3>
+              <p className={Styles.Features__mobileDesc}>
+                {feature.description}
+              </p>
+            </div>
+            <div className={Styles.Features__mobileImageWrapper}>
+              <Image
+                src={feature.imageSrc}
+                alt={feature.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 800px"
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

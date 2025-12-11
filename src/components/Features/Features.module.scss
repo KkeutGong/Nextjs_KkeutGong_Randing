@@ -48,6 +48,14 @@
     position: relative;
     width: 100%;
     // Total height will be defined by content, but we want enough room to scroll.
+
+    @include tablet {
+      display: none;
+    }
+
+    @include mobile {
+      display: none;
+    }
   }
 
   // The sticky container
@@ -169,22 +177,160 @@
       font-weight: 700;
       color: #fff;
       margin-bottom: 1.5rem;
-      line-height: 1.3;
+      line-height: 1.4;
       word-break: keep-all;
+      letter-spacing: -0.02em;
 
       @include mobile {
         font-size: 2rem;
+        line-height: 1.35;
       }
     }
 
     &__desc {
       font-size: 1.25rem;
       color: var(--text-white-gray);
-      line-height: 1.6;
+      line-height: 1.7;
       word-break: keep-all;
+      letter-spacing: -0.01em;
 
       @include mobile {
         font-size: 1.125rem;
+        line-height: 1.65;
+      }
+    }
+  }
+
+  // Mobile Layout Styles
+  &__mobileLayout {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 0; // Remove padding to let items be full screen
+
+    @include tablet {
+      display: flex;
+    }
+
+    @include mobile {
+      display: flex;
+    }
+  }
+
+  &__mobileItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; // Align to top to give more space for image
+    width: 100%;
+    height: 100vh; // Full viewport height
+    min-height: 100vh;
+    padding: 0 1.5rem;
+    scroll-snap-align: start; // Snap to start of viewport
+    scroll-snap-stop: always; // Force stop at each item
+    overflow: visible; // Allow image to overflow if needed
+
+    // Remove previous margins
+    margin-bottom: 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @include mobile {
+      padding: 0 0.5rem; // Minimal padding
+      margin-bottom: 0;
+      justify-content: flex-start; // Give more space for image
+      overflow: visible; // Allow scaling to overflow
+    }
+  }
+
+  &__mobileText {
+    width: 100%;
+    margin-bottom: 1.5rem; // Reduce space between text and image
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem; // Reduce top padding to give more space for image
+
+    @include mobile {
+      padding-top: 2.5rem; // Reduced padding
+      margin-bottom: 0.25rem; // Minimal gap between text and image
+    }
+  }
+
+  &__mobileNum {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.1);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+
+    @include mobile {
+      font-size: 3rem; // Slightly smaller to save space
+      margin-bottom: 0.25rem; // Reduced margin
+    }
+  }
+
+  &__mobileTitle {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    word-break: keep-all;
+    letter-spacing: -0.02em;
+
+    @include mobile {
+      font-size: 1.875rem;
+      margin-bottom: 0.5rem; // Reduced margin
+      line-height: 1.35;
+    }
+  }
+
+  &__mobileDesc {
+    font-size: 1.25rem;
+    color: var(--text-white-gray);
+    line-height: 1.7;
+    word-break: keep-all;
+    max-width: 600px;
+    letter-spacing: -0.01em;
+
+    @include mobile {
+      font-size: 1.125rem;
+      line-height: 1.65;
+      margin-bottom: 0; // Remove bottom margin to maximize image space
+    }
+  }
+
+  &__mobileImageWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px; // Allow it to be very wide
+    height: 65vh; // Default height for tablet
+    min-height: 500px; // Ensure minimum size
+
+    img {
+      object-fit: contain;
+    }
+
+    @include mobile {
+      height: 100vh; // Use full viewport height
+      min-height: 900px; // Very large minimum height
+      width: 100%;
+      max-width: 100%; // remove constraint
+      flex: 1; // Allow it to grow
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0; // Remove any padding that might constrain the image
+      transform: scale(1.2) translateY(-3rem); // Move image up more
+      margin-top: -1.5rem; // Additional upward movement
+      
+      img {
+        transform: scale(1.3); // Slightly reduced scale on image
+        object-fit: contain;
       }
     }
   }

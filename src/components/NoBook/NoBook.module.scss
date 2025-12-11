@@ -68,7 +68,7 @@
     &__mainText {
         font-size: 5.5rem;
         font-weight: 800;
-        line-height: 1.1;
+        line-height: 1.2;
         color: var(--white);
         letter-spacing: -0.03em;
         margin-bottom: 3rem;
@@ -84,10 +84,19 @@
 
         @include tablet {
             font-size: 4rem;
+            line-height: 1.15;
+            margin-bottom: 2.5rem;
         }
 
         @include mobile {
             font-size: 2.75rem;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        @include smallMobile {
+            font-size: 2.25rem;
+            margin-bottom: 1.75rem;
         }
     }
 
@@ -95,19 +104,31 @@
         font-size: 1.75rem;
         color: var(--text-white-gray);
         font-weight: 400;
-        line-height: 1.6;
+        line-height: 1.7;
         max-width: 800px;
         opacity: 0.8;
         word-break: keep-all;
+        letter-spacing: -0.01em;
 
         b {
             color: #fff;
             font-weight: 600;
         }
 
+        @include tablet {
+            font-size: 1.5rem;
+            line-height: 1.65;
+        }
+
         @include mobile {
             font-size: 1.125rem;
             max-width: 100%;
+            line-height: 1.6;
+        }
+
+        @include smallMobile {
+            font-size: 1rem;
+            line-height: 1.5;
         }
     }
 
